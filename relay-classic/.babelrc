@@ -1,0 +1,17 @@
+{
+  "presets": [
+    "env",
+    "react",
+    "stage-2"
+  ],
+  "plugins": [
+    "./data/schema",
+    ["module-resolver", {
+      "root": ["./src"],
+      "alias": {
+        "src": "./src",
+      }
+    }],
+    "transform-class-properties"
+  ]
+}

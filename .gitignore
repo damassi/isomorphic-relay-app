@@ -1,0 +1,15 @@
+coverage
+node_modules
+public
+
+# Env file
+
+# OS X
+.DS_Store
+
+# Temporary files
+.tmp/
+_archive
+
+build/*
+__generated__

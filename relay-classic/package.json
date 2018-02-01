@@ -1,0 +1,47 @@
+{
+  "name": "isomorphic-relay-app",
+  "version": "1.0.0",
+  "description": "App illustrating isomorphic relay setup",
+  "scripts": {
+    "start": "NODE_ENV=development babel-node src/index.js",
+    "sync:schema": "cd externals/metaphysics && git fetch && git checkout origin/master && yarn install && npm run dump-schema -- ../../data"
+  },
+  "main": "index.js",
+  "repository": "git@github.com:damassi/isomorphic-relay-app.git",
+  "author": "Christopher Pappas <damassi.pappas@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "babel-relay-plugin": "https://github.com/alloy/relay/releases/download/v0.9.3/babel-relay-plugin-0.9.3.tgz",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.0",
+    "isomorphic-relay": "^0.7.4",
+    "isomorphic-relay-router": "^0.8.6",
+    "longjohn": "^0.2.12",
+    "minilog": "^3.1.0",
+    "morgan": "^1.8.1",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-helmet": "^4.0.0",
+    "react-relay": "^0.10.0",
+    "react-router": "^3.0.2",
+    "react-router-relay": "^0.13.5"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.23.0",
+    "babel-loader": "^6.3.2",
+    "babel-plugin-module-resolver": "^2.5.0",
+    "babel-plugin-transform-class-properties": "^6.23.0",
+    "babel-preset-env": "^1.2.0",
+    "babel-preset-es2017": "^6.22.0",
+    "babel-preset-react": "^6.23.0",
+    "babel-preset-stage-2": "^6.22.0",
+    "backpack-core": "^0.2.0",
+    "eslint-plugin-react-app": "^1.0.2",
+    "friendly-errors-webpack-plugin": "^1.6.1",
+    "progress-bar-webpack-plugin": "^1.9.3",
+    "webpack": "^3.10.0",
+    "webpack-dev-middleware": "^1.10.1",
+    "webpack-hot-middleware": "^2.17.1",
+    "webpack-notifier": "^1.5.0"
+  }
+}
