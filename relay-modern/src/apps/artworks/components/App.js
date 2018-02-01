@@ -1,7 +1,7 @@
 import React from 'react'
 import { createFragmentContainer, graphql } from 'react-relay'
 
-function Artwork(props) {
+function App(props) {
   const { artwork: { artist, partner } } = props
 
   return (
@@ -13,9 +13,9 @@ function Artwork(props) {
 }
 
 export default createFragmentContainer(
-  Artwork,
+  App,
   graphql`
-    fragment Artwork_artwork on Artwork {
+    fragment App_artwork on Artwork {
       artist {
         name
       }

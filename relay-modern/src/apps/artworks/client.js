@@ -1,21 +1,15 @@
-import Artwork from './components/Artwork'
+import App from './components/App'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import QueryLookupRenderer from 'relay-query-lookup-renderer'
-import { graphql } from 'react-relay'
+import { RootQuery } from './queries/RootQuery'
 import { getRelayEnvironment } from 'lib/isomorphic-relay/getRelayEnvironment'
 
 ReactDOM.render(
   <QueryLookupRenderer
     lookup
     environment={getRelayEnvironment(window.__BOOTSTRAP__)}
-    query={graphql`
-      query clientQuery($id: String!) {
-        artwork(id: $id) {
-          ...Artwork_artwork
-        }
-      }
-    `}
+    query={RootQuery}
     variables={{
       id: 'loren-myhre-delta-marrow'
     }}
@@ -23,7 +17,7 @@ ReactDOM.render(
       if (error) {
         return <div>{error.message}</div>
       } else if (props) {
-        return <Artwork artwork={props.artwork} />
+        return <App artwork={props.artwork} />
       } else {
         return <div>Loading</div>
       }
