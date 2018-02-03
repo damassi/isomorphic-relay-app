@@ -1,13 +1,17 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function Nav() {
   return (
     <ul>
       <li>
-        <a href="/about">About</a>
+        <Link to="/">Home</Link>
       </li>
       <li>
-        <a href="/artwork/loren-myhre-delta-marrow">Artwork</a>
+        <Link to="/about">About</Link>
+      </li>
+      <li>
+        <Link to="/artwork/loren-myhre-delta-marrow">Artwork</Link>
       </li>
     </ul>
   )
