@@ -36,8 +36,6 @@ export function mountServer(routes, getComponent) {
         },
       }
 
-      // console.log(response)
-
       const IsomorphicRelayRouter = ({ children, routerProps }) => {
         return (
           <Fragment>
