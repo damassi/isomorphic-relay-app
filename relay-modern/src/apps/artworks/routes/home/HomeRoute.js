@@ -4,13 +4,13 @@ import Artwork from './Artwork'
 import { getRelayEnvironment } from 'lib/isomorphic-relay/getRelayEnvironment'
 import { graphql } from 'react-relay'
 
-export class ArtworksRoute extends Component {
+export class HomeRoute extends Component {
   static relay = {
     variables: {
       id: 'loren-myhre-delta-marrow',
     },
     query: graphql`
-      query ArtworksRouteQuery($id: String!) {
+      query HomeRouteQuery($id: String!) {
         artwork(id: $id) {
           ...Artwork_artwork
         }
@@ -19,11 +19,12 @@ export class ArtworksRoute extends Component {
   }
 
   render() {
-    const { relay: { query, variables } } = ArtworksRoute
+    const { relay: { query, variables } } = HomeRoute
 
     return (
       <QueryLookupRenderer
         lookup
+        retain
         environment={getRelayEnvironment(this.props.records)}
         query={query}
         variables={variables}

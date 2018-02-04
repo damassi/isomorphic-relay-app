@@ -21,11 +21,10 @@ export class ArtistsRoute extends Component {
   render() {
     const { relay: { query, variables } } = ArtistsRoute
 
-    // console.log(this.props)
-
     return (
       <QueryLookupRenderer
         lookup
+        retain
         environment={getRelayEnvironment(this.props.records)}
         query={query}
         variables={variables}
