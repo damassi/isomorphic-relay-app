@@ -1,6 +1,6 @@
 import QueryLookupRenderer from 'relay-query-lookup-renderer'
 import React, { Component } from 'react'
-// import Artist from './Artist'
+import Artist from './Artist'
 import { graphql } from 'react-relay'
 import { getRelayEnvironment } from 'lib/isomorphic-relay/getRelayEnvironment'
 
@@ -32,7 +32,7 @@ export class ArtistsRoute extends Component {
           if (error) {
             return <div>{error.message}</div>
           } else if (props) {
-            return <div>basquiat</div>
+            return <Artist {...props} />
           } else {
             return <div>Loading</div>
           }
