@@ -8,17 +8,14 @@ export default function HTML(props) {
       </head>
       <body>
         <div id="react-root">{props.children}</div>
-        <div
+        <script
           dangerouslySetInnerHTML={{
             __html: `
-              <script>
-                var __BOOTSTRAP__ = ${props.bootstrap};
-              </script>
-
-              <script src='/assets/artworks.js'></script>
+              var __BOOTSTRAP__ = ${JSON.stringify(props.bootstrap)};
             `
           }}
         />
+        <script src="/assets/artworks.js" />
       </body>
     </html>
   )

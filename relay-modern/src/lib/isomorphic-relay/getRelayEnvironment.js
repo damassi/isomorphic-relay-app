@@ -7,14 +7,16 @@ import {
   urlMiddleware,
   loggerMiddleware,
   gqlErrorsMiddleware,
-  perfMiddleware
+  perfMiddleware,
 } from 'react-relay-network-modern'
 
 const network = new RelayNetworkLayer([
   urlMiddleware({ url: process.env.METAPHYSICS_BASE_URL }),
-  loggerMiddleware(),
-  gqlErrorsMiddleware(),
-  perfMiddleware()
+  // loggerMiddleware(),
+  // gqlErrorsMiddleware({
+  //   disableServerMiddlewareTip: true,
+  // }),
+  // perfMiddleware(),
 ])
 
 export function getRelayEnvironment(records) {
@@ -23,6 +25,6 @@ export function getRelayEnvironment(records) {
 
   return new Environment({
     network,
-    store
+    store,
   })
 }

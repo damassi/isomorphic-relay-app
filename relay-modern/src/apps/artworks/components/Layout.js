@@ -1,18 +1,20 @@
 import Nav from './Nav'
-import React, { PropTypes } from 'react'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { renderRoutes } from 'react-router-config'
 
-export default function Layout({ children }) {
+export function Layout(props) {
   return (
     <div>
-      <h3>Isomorphic React-Relay</h3>
-
       <Nav />
-
-      <div>{children}</div>
+      <div>
+        <h3>Isomorphic React-Relay</h3>
+        <div>{renderRoutes(props.route.routes, props)}</div>
+      </div>
     </div>
   )
 }
 
 Layout.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 }

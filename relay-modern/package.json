@@ -14,13 +14,18 @@
     "@artsy/stitch": "^1.3.1",
     "babel-cli": "^6.26.0",
     "babel-plugin-module-resolver": "^3.0.0",
+    "babel-plugin-transform-export-extensions": "^6.22.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "chalk": "^2.3.0",
     "css-loader": "^0.28.9",
     "dotenv": "^5.0.0",
     "express": "^4.16.2",
     "graphql": "^0.12.3",
+    "invariant": "^2.2.2",
     "isomorphic-fetch": "^2.2.1",
+    "lodash": "^4.17.4",
     "morgan": "^1.9.0",
     "pug": "^2.0.0-rc.4",
     "react": "^16.2.0",
@@ -28,6 +33,8 @@
     "react-relay": "^1.4.1",
     "react-relay-network-modern": "^1.3.0",
     "react-router": "^4.2.0",
+    "react-router-config": "^1.0.0-beta.4",
+    "react-router-dom": "^4.2.2",
     "regenerator-runtime": "^0.11.1",
     "relay-context-provider": "^1.0.4",
     "relay-query-lookup-renderer": "^2.0.3",
@@ -37,6 +44,7 @@
     "babel-loader": "^7.1.2",
     "babel-plugin-relay": "^1.4.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "concurrently": "^3.5.1",
     "eslint": "^4.16.0",
     "eslint-plugin-react-app": "^1.0.2",
@@ -51,8 +59,9 @@
   },
   "prettier": {
     "arrowParens": "always",
+    "bracketSpacing": true,
     "semi": false,
     "singleQuote": true,
-    "bracketSpacing": true
+    "trailingComma": "es5"
   }
 }
