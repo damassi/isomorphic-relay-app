@@ -30,7 +30,6 @@ export function mountServer(routes, getComponent) {
 
       const bootstrap = {
         relay: {
-          query: query().text,
           records: environment.getStore().getSource(),
           response: data,
           variables,

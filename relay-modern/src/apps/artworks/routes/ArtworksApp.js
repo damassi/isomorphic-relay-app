@@ -1,7 +1,7 @@
 import React from 'react'
 import { createFragmentContainer, graphql } from 'react-relay'
 
-export function ArtworksApp(props) {
+export function Artworks(props) {
   const { artwork: { artist, partner } } = props
 
   return (
@@ -12,8 +12,8 @@ export function ArtworksApp(props) {
   )
 }
 
-const WrappedArtworksApp = createFragmentContainer(
-  ArtworksApp,
+const ArtworksApp = createFragmentContainer(
+  Artworks,
   graphql`
     fragment ArtworksApp_artwork on Artwork {
       artist {
@@ -29,15 +29,17 @@ const WrappedArtworksApp = createFragmentContainer(
   `
 )
 
-// WrappedArtworksApp.relay = {
-//   variables: 'loren-myhre-delta-marrow',
-//   query: graphql`
-//     query ArtworksAppQuery($id: String!) {
-//       artwork(id: $id) {
-//         ...ArtworksApp_artwork
-//       }
-//     }
-//   `,
-// }
+ArtworksApp.relay = {
+  variables: {
+    id: 'loren-myhre-delta-marrow',
+  },
+  query: graphql`
+    query ArtworksAppQuery($id: String!) {
+      artwork(id: $id) {
+        ...ArtworksApp_artwork
+      }
+    }
+  `,
+}
 
-export default WrappedArtworksApp
+export default ArtworksApp
