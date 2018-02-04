@@ -8,10 +8,17 @@ import { renderRoutes } from 'react-router-config'
 
 export function mountClient(routes, mountId) {
   const { __BOOTSTRAP__, location } = window
-  const { relay: { records, response } } = JSON.parse(__BOOTSTRAP__)
+  // const { relay: { records, response } } = JSON.parse(__BOOTSTRAP__)
+  const { relay } = JSON.parse(__BOOTSTRAP__)
   const { query, variables } = getRelayRouteProps(routes, location.pathname)
 
   ReactDOM.hydrate(
+    <BrowserRouter>{renderRoutes(routes, relay)}</BrowserRouter>,
+    document.getElementById(mountId)
+  )
+}
+
+/*
     <QueryLookupRenderer
       lookup
       environment={getRelayEnvironment(records)}
@@ -27,7 +34,4 @@ export function mountClient(routes, mountId) {
         }
       }}
     />,
-
-    document.getElementById(mountId)
-  )
-}
+    */

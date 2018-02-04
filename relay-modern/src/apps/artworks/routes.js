@@ -1,6 +1,6 @@
-import ArtworksApp from './routes/ArtworksApp'
-import ArtistsApp from './routes/ArtistsApp'
 import React from 'react'
+import { ArtworksRoute } from './routes/artworks/ArtworksRoute'
+import { ArtistsRoute } from './routes/artists/ArtistsRoute'
 import { Layout } from './components/Layout'
 
 export const routes = [
@@ -10,11 +10,11 @@ export const routes = [
       {
         path: '/',
         exact: true,
-        component: ArtworksApp,
+        component: ArtworksRoute,
       },
       {
         path: '/artist/:id',
-        component: ArtistsApp,
+        component: ArtistsRoute,
       },
       {
         path: '*',
