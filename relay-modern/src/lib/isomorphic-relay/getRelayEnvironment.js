@@ -5,9 +5,9 @@ import { Environment, RecordSource, Store } from 'relay-runtime'
 import {
   RelayNetworkLayer,
   urlMiddleware,
-  loggerMiddleware,
-  gqlErrorsMiddleware,
-  perfMiddleware,
+  // loggerMiddleware,
+  // gqlErrorsMiddleware,
+  // perfMiddleware,
 } from 'react-relay-network-modern'
 
 const network = new RelayNetworkLayer([
@@ -19,12 +19,20 @@ const network = new RelayNetworkLayer([
   // perfMiddleware(),
 ])
 
+let environment
+
 export function getRelayEnvironment(records) {
+  if (environment) {
+    return environment
+  }
+
   const source = new RecordSource(records)
   const store = new Store(source)
 
-  return new Environment({
+  environment = new Environment({
     network,
     store,
   })
+
+  return environment
 }

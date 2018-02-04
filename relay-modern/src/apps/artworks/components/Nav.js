@@ -11,7 +11,7 @@ export default function Nav() {
         <Link to="/about">About</Link>
       </li>
       <li>
-        <Link to="/artwork/loren-myhre-delta-marrow">Artwork</Link>
+        <Link to="/artist/jean-michel-basquiat">Artist</Link>
       </li>
     </ul>
   )

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 class PreloaderLink extends Component {
   static contextTypes = {
@@ -9,17 +9,24 @@ class PreloaderLink extends Component {
     }).isRequired,
   }
 
-  constructor() {
-    super()
-    this.state = { loading: false }
+  state = {
+    isLoading: false,
   }
 
-  handleClick = (evt) => {
-    evt.preventDefault()
-    this.setState({ loading: true })
+  handleClick = (event) => {
+    event.preventDefault()
+
+    this.setState({
+      isLoading: true,
+    })
+
     this.props.onPreload().then(() => {
-      this.setState({ loading: false })
+      this.setState({
+        isLoading: false,
+      })
+
       const { replace, to } = this.props
+
       if (replace) {
         this.context.router.replace(to)
       } else {
@@ -32,7 +39,7 @@ class PreloaderLink extends Component {
     return (
       <Link onClick={this.handleClick} {...this.props}>
         {this.props.children}
-        {this.state.loading ? ' [loading...]' : null}
+        {this.state.isLoading ? ' [loading...]' : null}
       </Link>
     )
   }

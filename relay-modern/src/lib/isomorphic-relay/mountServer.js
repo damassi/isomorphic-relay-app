@@ -18,24 +18,25 @@ export function mountServer(routes, getComponent) {
 
   async function serverSideRender(req, res, next) {
     try {
-      let data = {}
+      let response = {}
       let context = {}
 
       const { query, variables } = getRelayRouteProps(routes, req.url)
       const environment = getRelayEnvironment()
 
       if (query) {
-        data = await fetchQuery(environment, query, variables)
+        response = await fetchQuery(environment, query, variables)
       }
 
       const bootstrap = {
         relay: {
-          query: query().text,
           records: environment.getStore().getSource(),
-          response: data,
+          response,
           variables,
         },
       }
+
+      // console.log(response)
 
       const IsomorphicRelayRouter = ({ children, routerProps }) => {
         return (
@@ -49,7 +50,7 @@ export function mountServer(routes, getComponent) {
                 context={context}
                 {...routerProps}
               >
-                {renderRoutes(routes, data)}
+                {renderRoutes(routes, bootstrap.relay)}
               </StaticRouter>
             </RelayContextProvider>
 

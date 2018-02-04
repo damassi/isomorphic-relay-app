@@ -1,7 +1,7 @@
-import ArtworksApp from './components/ArtworksApp'
 import React from 'react'
+import { HomeRoute } from './routes/home/HomeRoute'
+import { ArtistsRoute } from './routes/artists/ArtistsRoute'
 import { Layout } from './components/Layout'
-import { graphql } from 'react-relay'
 
 export const routes = [
   {
@@ -10,33 +10,16 @@ export const routes = [
       {
         path: '/',
         exact: true,
-        component: ArtworksApp,
-        relay: {
-          variables: {
-            id: 'loren-myhre-delta-marrow',
-          },
-          query: graphql`
-            query routesQuery($id: String!) {
-              artwork(id: $id) {
-                ...ArtworksApp_artwork
-              }
-            }
-          `,
-        },
+        component: HomeRoute,
       },
       {
-        path: '/foo',
-        component: () => <div>working</div>,
-        relay: {
-          variables: {
-            id: 'loren-myhre-delta-marrow',
-          },
-        },
+        path: '/artist/:id',
+        component: ArtistsRoute,
       },
-      // {
-      //   path: '*',
-      //   component: () => <div>NOT FOUND!</div>
-      // }
+      {
+        path: '*',
+        component: () => <div>NOT FOUND!</div>,
+      },
     ],
   },
 ]
