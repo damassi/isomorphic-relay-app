@@ -4,7 +4,7 @@
   "description": "App illustrating isomorphic relay setup",
   "scripts": {
     "start": "NODE_ENV=development babel-node src/index.js",
-    "sync:schema": "cd externals/metaphysics && git fetch && git checkout origin/master && yarn install && npm run dump-schema -- ../../data"
+    "sync:schema": "cd ../graphql/metaphysics && git fetch && git checkout origin/master && yarn install && rm -rf data && mkdir data && yarn dump-schema ./data"
   },
   "main": "index.js",
   "repository": "git@github.com:damassi/isomorphic-relay-app.git",
@@ -30,6 +30,7 @@
     "babel-cli": "^6.23.0",
     "babel-loader": "^6.3.2",
     "babel-plugin-module-resolver": "^2.5.0",
+    "babel-plugin-relay": "^1.4.1",
     "babel-plugin-transform-class-properties": "^6.23.0",
     "babel-preset-env": "^1.2.0",
     "babel-preset-es2017": "^6.22.0",

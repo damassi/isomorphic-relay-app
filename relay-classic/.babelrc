@@ -5,11 +5,11 @@
     "stage-2"
   ],
   "plugins": [
-    "./data/schema",
+    ["relay", {"schema": "../graphql/metaphysics/data/schema.graphql"}],
     ["module-resolver", {
       "root": ["./src"],
       "alias": {
-        "src": "./src",
+        "src": "./src"
       }
     }],
     "transform-class-properties"

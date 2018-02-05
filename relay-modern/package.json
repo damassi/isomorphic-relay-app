@@ -5,9 +5,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "relay": "relay-compiler --src ./src --schema ./data/schema.graphql",
+    "relay": "relay-compiler --src ./src --schema ../graphql/metaphysics/data/schema.graphql",
     "start": "NODE_ENV=development concurrently --kill-others 'yarn relay --watch' 'babel-node index.js'",
-    "sync:schema": "cd externals/metaphysics && git fetch && git checkout origin/master && yarn install && yarn dump-schema -- ../../data"
+    "sync:schema": "cd ../graphql/metaphysics && git fetch && git checkout origin/master && yarn install && rm -rf data && mkdir data && yarn dump-schema ./data"
   },
   "dependencies": {
     "@artsy/express-reloadable": "^1.2.2",

@@ -3,8 +3,6 @@ Example lib demonstrating how to mount an Isomorphic Relay Modern app on top of 
 ### Setup
 
 ```bash
-git clone --recursive git@github.com:damassi/isomorphic-relay-app.git
-
 yarn install
 yarn sync:schema
 yarn start

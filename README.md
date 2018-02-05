@@ -4,10 +4,12 @@ Example app showing how to isomorphically render a Relay Modern or Classic app. 
 
 ```bash
 git clone --recursive git@github.com:damassi/isomorphic-relay-app.git
+cd isomorphic-relay-app
 
 cd relay-modern
-# Or
+# or
 cd relay-classic
+# then
 
 yarn install
 yarn sync:schema

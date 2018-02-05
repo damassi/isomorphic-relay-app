@@ -1,0 +1,4 @@
+[submodule "graphql/metaphysics"]
+	path = graphql/metaphysics
+	url = git@github.com:artsy/metaphysics.git
+	ignore = dirty
