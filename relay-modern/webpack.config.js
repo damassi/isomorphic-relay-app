@@ -7,7 +7,7 @@ import webpack from 'webpack'
 const { NODE_ENV, PORT } = process.env
 
 export default {
-  devtool: '#cheap-inline-source-map',
+  devtool: 'cheap-module-eval-source-map',
   entry: {
     artworks: ['webpack-hot-middleware/client', './src/apps/artworks/client.js']
   },
