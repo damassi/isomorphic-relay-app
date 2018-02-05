@@ -13,6 +13,10 @@ export const routes = [
         component: HomeRoute,
       },
       {
+        path: '/about',
+        component: () => <div>About Page!</div>,
+      },
+      {
         path: '/artist/:id',
         component: ArtistsRoute,
       },
