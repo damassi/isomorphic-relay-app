@@ -1,7 +1,9 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import RelayContextProvider from 'relay-context-provider'
 import chalk from 'chalk'
 import express from 'express'
+import { Cache } from './cache'
+import { RelayRouterContext } from './RelayRouterContext'
 import { StaticRouter } from 'react-router'
 import { fetchQuery } from 'react-relay'
 import { getRelayEnvironment, getRelayRouteProps } from 'lib/isomorphic-relay'
@@ -12,9 +14,7 @@ import { renderToString } from 'react-dom/server'
 export function mountServer(routes, getComponent) {
   const app = express.Router()
 
-  app.get('/*', (req, res, next) => {
-    serverSideRender(req, res, next)
-  })
+  app.get('/*', serverSideRender)
 
   async function serverSideRender(req, res, next) {
     try {
@@ -38,7 +38,7 @@ export function mountServer(routes, getComponent) {
 
       const IsomorphicRelayRouter = ({ children, routerProps }) => {
         return (
-          <Fragment>
+          <RelayRouterContext provide={{ routerCache: {}, routes }}>
             <RelayContextProvider
               environment={environment}
               variables={variables}
@@ -53,7 +53,7 @@ export function mountServer(routes, getComponent) {
             </RelayContextProvider>
 
             {children}
-          </Fragment>
+          </RelayRouterContext>
         )
       }
 

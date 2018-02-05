@@ -2,13 +2,17 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { getRelayRouteProps } from './getRelayRouteProps'
-import { routes } from 'apps/artworks/routes'
 import { fetchQuery } from 'react-relay'
 import { getRelayEnvironment } from './getRelayEnvironment'
 import { omit } from 'lodash/fp'
-import * as cache from './cache'
+import { injectContext } from './injectContext'
 
-export class PreloadLink extends Component {
+export const PreloadLink = injectContext(context => {
+  return {
+    routerCache: context.routerCache,
+    routes: context.routes
+  }
+}, class extends Component {
   static contextTypes = {
     router: PropTypes.shape({
       history: PropTypes.shape({
@@ -19,6 +23,7 @@ export class PreloadLink extends Component {
   }
 
   static propTypes = {
+    routerCache: PropTypes.object.isRequired,
     to: PropTypes.string.isRequired,
     immediate: PropTypes.bool, // load page data in the background on mount
   }
@@ -39,10 +44,10 @@ export class PreloadLink extends Component {
 
   fetchData() {
     return new Promise(async (resolve, reject) => {
-      // TODO: Check cache against relay store
-      const cacheKey = this.props.to
+      const { to, routerCache, routes } = this.props // TODO: Check cache against relay store
+      const cacheKey = to
 
-      if (cache.get(cacheKey)) {
+      if (routerCache.get(cacheKey)) {
         return resolve()
       }
 
@@ -52,7 +57,7 @@ export class PreloadLink extends Component {
       try {
         if (query) {
           const response = await fetchQuery(environment, query, variables)
-          cache.set(cacheKey, response)
+          routerCache.set(cacheKey, response)
         }
 
         resolve()
@@ -87,7 +92,7 @@ export class PreloadLink extends Component {
 
   render() {
     // RR will pass all props down to dom, leading to props warnings from React
-    const props = omit(['immediate'], this.props)
+    const props = omit(['immediate', 'routerCache'], this.props)
 
     return (
       <Link onClick={this.handleClick} {...props}>
@@ -96,4 +101,4 @@ export class PreloadLink extends Component {
       </Link>
     )
   }
-}
+})
