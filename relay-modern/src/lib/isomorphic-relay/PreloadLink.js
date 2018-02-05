@@ -5,6 +5,7 @@ import { getRelayRouteProps } from './getRelayRouteProps'
 import { routes } from 'apps/artworks/routes'
 import { fetchQuery } from 'react-relay'
 import { getRelayEnvironment } from './getRelayEnvironment'
+import { omit } from 'lodash/fp'
 import * as cache from './cache'
 
 export class PreloadLink extends Component {
@@ -17,8 +18,23 @@ export class PreloadLink extends Component {
     }).isRequired,
   }
 
+  static propTypes = {
+    to: PropTypes.string.isRequired,
+    immediate: PropTypes.bool, // load page data in the background on mount
+  }
+
+  static defaultProps = {
+    immediate: false,
+  }
+
   state = {
     isLoading: false,
+  }
+
+  componentDidMount() {
+    if (this.props.immediate) {
+      this.fetchData()
+    }
   }
 
   fetchData() {
@@ -70,8 +86,11 @@ export class PreloadLink extends Component {
   }
 
   render() {
+    // RR will pass all props down to dom, leading to props warnings from React
+    const props = omit(['immediate'], this.props)
+
     return (
-      <Link onClick={this.handleClick} {...this.props}>
+      <Link onClick={this.handleClick} {...props}>
         {this.props.children}
         {this.state.isLoading ? ' [loading...]' : null}
       </Link>
