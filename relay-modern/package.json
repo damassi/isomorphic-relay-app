@@ -41,6 +41,7 @@
     "regenerator-runtime": "^0.11.1",
     "relay-context-provider": "^1.0.4",
     "relay-query-lookup-renderer": "^2.0.3",
+    "serialize-javascript": "^1.4.0",
     "style-loader": "^0.20.1"
   },
   "devDependencies": {

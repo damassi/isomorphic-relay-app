@@ -2,12 +2,11 @@ import React from 'react'
 import RelayContextProvider from 'relay-context-provider'
 import chalk from 'chalk'
 import express from 'express'
-import { Cache } from './cache'
+import serialize from 'serialize-javascript'
 import { RelayRouterProvider } from './RelayRouterProvider'
 import { StaticRouter } from 'react-router'
 import { fetchQuery } from 'react-relay'
 import { getRelayEnvironment, getRelayRouteProps } from 'lib/isomorphic-relay'
-import { isFunction } from 'lodash/fp'
 import { renderRoutes } from 'react-router-config'
 import { renderToString } from 'react-dom/server'
 
@@ -18,11 +17,10 @@ export function mountServer(routes, getComponent) {
 
   async function serverSideRender(req, res, next) {
     try {
-      let response = {}
-      let context = {}
-
       const { query, variables } = getRelayRouteProps(routes, req.url)
       const environment = getRelayEnvironment()
+      let response = {}
+      let context = {}
 
       if (query) {
         response = await fetchQuery(environment, query, variables)
@@ -36,34 +34,37 @@ export function mountServer(routes, getComponent) {
         },
       }
 
-      const IsomorphicRelayRouter = ({ children, routerProps }) => {
-        return (
-          <RelayRouterProvider provide={{ routerCache: {}, routes }}>
-            <RelayContextProvider
-              environment={environment}
-              variables={variables}
-            >
-              <StaticRouter
-                location={req.url}
-                context={context}
-                {...routerProps}
-              >
-                {renderRoutes(routes, bootstrap.relay)}
-              </StaticRouter>
-            </RelayContextProvider>
-
-            {children}
-          </RelayRouterProvider>
-        )
-      }
-
-      const html = renderToString(
-        isFunction(getComponent) ? (
-          getComponent({ IsomorphicRelayRouter, bootstrap })
-        ) : (
-          <IsomorphicRelayRouter />
-        )
+      const App = (
+        <html>
+          <head>
+            <title>Isomorphic Relay Modern App</title>
+          </head>
+          <body>
+            <div id="react-root">
+              <RelayRouterProvider provide={{ routerCache: {}, routes }}>
+                <RelayContextProvider
+                  environment={environment}
+                  variables={variables}
+                >
+                  <StaticRouter location={req.url} context={context}>
+                    {renderRoutes(routes, bootstrap.relay)}
+                  </StaticRouter>
+                </RelayContextProvider>
+              </RelayRouterProvider>
+            </div>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.__BOOTSTRAP__ = ${serialize(bootstrap)};
+                `,
+              }}
+            />
+            <script src="/assets/artworks.js" />
+          </body>
+        </html>
       )
+
+      const html = renderToString(App)
 
       if (context.status === 404) {
         res.status(404)

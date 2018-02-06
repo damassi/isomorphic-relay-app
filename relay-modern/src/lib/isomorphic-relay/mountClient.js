@@ -6,7 +6,7 @@ import { RelayRouterProvider } from './RelayRouterProvider'
 import { renderRoutes } from 'react-router-config'
 
 export function mountClient(routes, mountId) {
-  const { relay } = JSON.parse(window.__BOOTSTRAP__)
+  const { relay } = window.__BOOTSTRAP__
   const routerCache = new Cache()
 
   routerCache.set(window.location.pathname, relay.response)
