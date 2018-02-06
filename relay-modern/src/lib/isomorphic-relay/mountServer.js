@@ -3,7 +3,7 @@ import RelayContextProvider from 'relay-context-provider'
 import chalk from 'chalk'
 import express from 'express'
 import { Cache } from './cache'
-import { RelayRouterContext } from './RelayRouterContext'
+import { RelayRouterProvider } from './RelayRouterProvider'
 import { StaticRouter } from 'react-router'
 import { fetchQuery } from 'react-relay'
 import { getRelayEnvironment, getRelayRouteProps } from 'lib/isomorphic-relay'
@@ -38,7 +38,7 @@ export function mountServer(routes, getComponent) {
 
       const IsomorphicRelayRouter = ({ children, routerProps }) => {
         return (
-          <RelayRouterContext provide={{ routerCache: {}, routes }}>
+          <RelayRouterProvider provide={{ routerCache: {}, routes }}>
             <RelayContextProvider
               environment={environment}
               variables={variables}
@@ -53,7 +53,7 @@ export function mountServer(routes, getComponent) {
             </RelayContextProvider>
 
             {children}
-          </RelayRouterContext>
+          </RelayRouterProvider>
         )
       }
 

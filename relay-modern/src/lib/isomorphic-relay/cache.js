@@ -1,4 +1,3 @@
-
 export class Cache {
   constructor() {
     this.cacheMap = new Map()
@@ -11,14 +10,4 @@ export class Cache {
   get(key) {
     return this.cacheMap.get(key)
   }
-}
-
-const cacheMap = new Map()
-
-export function set(key, value) {
-  cacheMap.set(key, value)
-}
-
-export function get(key) {
-  return cacheMap.get(key)
 }

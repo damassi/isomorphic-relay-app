@@ -3,7 +3,8 @@
   "editor.tabSize": 2,
   "javascript.validate.enable": true,
   "search.exclude": {
-    "**/node_modules": true
+    "**/node_modules": true,
+    "**/graphql": true
   },
   "files.exclude": {
     "**/.git": true,

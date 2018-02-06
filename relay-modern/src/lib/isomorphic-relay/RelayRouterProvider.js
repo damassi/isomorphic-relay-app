@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
-export class RelayRouterContext extends Component {
+export class RelayRouterProvider extends Component {
   static childContextTypes = {
-    provide: PropTypes.object
+    provide: PropTypes.object,
   }
 
   getChildContext() {
     return {
-      provide: this.props.provide
+      provide: this.props.provide,
     }
   }
 

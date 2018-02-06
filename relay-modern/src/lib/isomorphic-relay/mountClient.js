@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import { Cache } from './cache'
-import { RelayRouterContext } from './RelayRouterContext'
+import { RelayRouterProvider } from './RelayRouterProvider'
 import { renderRoutes } from 'react-router-config'
 
 export function mountClient(routes, mountId) {
@@ -12,9 +12,9 @@ export function mountClient(routes, mountId) {
   routerCache.set(window.location.pathname, relay.response)
 
   ReactDOM.hydrate(
-    <RelayRouterContext provide={{ routerCache, routes }}>
+    <RelayRouterProvider provide={{ routerCache, routes }}>
       <BrowserRouter>{renderRoutes(routes, relay)}</BrowserRouter>
-    </RelayRouterContext>,
+    </RelayRouterProvider>,
     document.getElementById(mountId)
   )
 }
