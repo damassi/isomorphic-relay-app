@@ -1,5 +1,6 @@
 import React from 'react'
 import { HomeRoute } from './routes/home/HomeRoute'
+import { ArtworkRoute } from './routes/artwork/ArtworkRoute'
 import { ArtistsRoute } from './routes/artists/ArtistsRoute'
 import { Layout } from './components/Layout'
 
@@ -13,8 +14,8 @@ export const routes = [
         component: HomeRoute,
       },
       {
-        path: '/about',
-        component: () => <div>About Page!</div>,
+        path: '/artwork',
+        component: ArtworkRoute,
       },
       {
         path: '/artist/:id',

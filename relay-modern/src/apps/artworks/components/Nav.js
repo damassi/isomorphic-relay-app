@@ -6,12 +6,15 @@ export default function Nav() {
   return (
     <ul>
       <li>
-        <PreloadLink to="/">
-          Home <small>(query / transition loads after click if not already loaded)</small>
-        </PreloadLink>
+        <Link to="/">Home</Link>
       </li>
       <li>
-        <Link to="/about">About</Link>
+        <PreloadLink to="/artwork">
+          Artwork{' '}
+          <small>
+            (query / transition loads after click if not already loaded)
+          </small>
+        </PreloadLink>
       </li>
       <li>
         <PreloadLink immediate to="/artist/jean-michel-basquiat">

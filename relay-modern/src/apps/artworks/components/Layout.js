@@ -8,7 +8,7 @@ export function Layout(props) {
     <div>
       <Nav />
       <div>
-        <h3>Isomorphic React-Relay</h3>
+        <h3>Isomorphic React / Relay Modern / React Router App</h3>
         <div>{renderRoutes(props.route.routes, props)}</div>
       </div>
     </div>
