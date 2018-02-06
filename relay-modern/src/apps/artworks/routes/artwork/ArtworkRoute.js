@@ -10,7 +10,7 @@ export class ArtworkRoute extends Component {
       id: 'loren-myhre-delta-marrow',
     },
     query: graphql`
-      query HomeRouteQuery($id: String!) {
+      query ArtworkRouteQuery($id: String!) {
         artwork(id: $id) {
           ...Artwork_artwork
         }

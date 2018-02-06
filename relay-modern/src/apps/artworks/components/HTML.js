@@ -12,7 +12,7 @@ export default function HTML(props) {
           dangerouslySetInnerHTML={{
             __html: `
               var __BOOTSTRAP__ = ${JSON.stringify(props.bootstrap)};
-            `
+            `,
           }}
         />
         <script src="/assets/artworks.js" />
