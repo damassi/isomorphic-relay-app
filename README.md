@@ -12,7 +12,7 @@ cd relay-classic
 # then
 
 yarn install
-yarn sync:schema
+yarn sync-schema
 yarn start
 
 open http://localhost:5000

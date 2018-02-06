@@ -11,7 +11,9 @@
         "src": "./src"
       }
     }],
+    "react-loadable/babel",
     "relay",
+    "syntax-dynamic-import",
     "transform-class-properties",
     "transform-export-extensions",
     "transform-runtime"
