@@ -3,8 +3,14 @@ import Loadable from 'react-loadable'
 
 const Example2 = Loadable({
   loader: () => import('./Example2'),
-  loading() {
-    return <div>Loading...</div>
+  loading: (props) => {
+    if (props.error) {
+      return <div>Error!</div>
+    } else if (props.pastDelay) {
+      return <div>Loading...</div>
+    } else {
+      return null
+    }
   },
 })
 

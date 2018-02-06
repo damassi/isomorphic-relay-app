@@ -12,8 +12,8 @@
       }
     }],
     "react-loadable/babel",
+    "dynamic-import-node",
     "relay",
-    "syntax-dynamic-import",
     "transform-class-properties",
     "transform-export-extensions",
     "transform-runtime"

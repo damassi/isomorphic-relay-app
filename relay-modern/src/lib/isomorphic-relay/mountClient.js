@@ -6,7 +6,7 @@ import { Cache } from './cache'
 import { RelayRouterProvider } from './RelayRouterProvider'
 import { renderRoutes } from 'react-router-config'
 
-export function mountClient(routes, mountId) {
+export function mountClient(routes) {
   const { relay } = window.__BOOTSTRAP__
   const routerCache = new Cache()
 
@@ -18,7 +18,7 @@ export function mountClient(routes, mountId) {
         <RelayRouterProvider provide={{ routerCache, routes }}>
           <BrowserRouter>{renderRoutes(routes, relay)}</BrowserRouter>
         </RelayRouterProvider>,
-        document.getElementById(mountId)
+        document.getElementById('react-root')
       )
     })
   }

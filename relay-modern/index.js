@@ -1,8 +1,8 @@
 // NOTE: If `dynamic-import-node` is in .babelrc it breaks webpack's bundle
 // splitting. Only load during runtime on the node.js side.
-require('babel-register')({
-  plugins: ['dynamic-import-node'],
-})
+// require('babel-register')({
+//   plugins: ['dynamic-import-node'],
+// })
 
 import 'dotenv/config'
 import Loadable from 'react-loadable'

@@ -40,19 +40,22 @@ export function mountServer(routes, getComponent) {
       let modules = []
 
       const APP = renderToString(
-        <RelayRouterProvider provide={{ routerCache: {}, routes }}>
-          <RelayContextProvider environment={environment} variables={variables}>
-            <Loadable.Capture
-              report={(moduleName) => {
-                modules.push(moduleName)
-              }}
+        <Loadable.Capture
+          report={(moduleName) => {
+            modules.push(moduleName)
+          }}
+        >
+          <RelayRouterProvider provide={{ routerCache: {}, routes }}>
+            <RelayContextProvider
+              environment={environment}
+              variables={variables}
             >
               <StaticRouter location={req.url} context={context}>
                 {renderRoutes(routes, bootstrap.relay)}
               </StaticRouter>
-            </Loadable.Capture>
-          </RelayContextProvider>
-        </RelayRouterProvider>
+            </RelayContextProvider>
+          </RelayRouterProvider>
+        </Loadable.Capture>
       )
 
       if (context.status === 404) {

@@ -51,6 +51,7 @@ export default {
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
+    // webpack.optimize.LimitChunkCountPlugin // Prevent chunk output
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
