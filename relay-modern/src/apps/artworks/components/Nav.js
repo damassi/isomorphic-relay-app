@@ -21,6 +21,12 @@ export default function Nav() {
           Artist <small>(loads immediately in background)</small>
         </PreloadLink>
       </li>
+      <li>
+        <Link to="/react-loadable/client">React Loadable - Clientside</Link>
+      </li>
+      <li>
+        <Link to="/react-loadable/server">React Loadable - SSR</Link>
+      </li>
     </ul>
   )
 }

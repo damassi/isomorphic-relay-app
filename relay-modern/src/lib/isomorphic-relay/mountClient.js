@@ -1,3 +1,4 @@
+import Loadable from 'react-loadable'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
@@ -11,10 +12,14 @@ export function mountClient(routes, mountId) {
 
   routerCache.set(window.location.pathname, relay.response)
 
-  ReactDOM.hydrate(
-    <RelayRouterProvider provide={{ routerCache, routes }}>
-      <BrowserRouter>{renderRoutes(routes, relay)}</BrowserRouter>
-    </RelayRouterProvider>,
-    document.getElementById(mountId)
-  )
+  window.main = () => {
+    Loadable.preloadReady().then(() => {
+      ReactDOM.hydrate(
+        <RelayRouterProvider provide={{ routerCache, routes }}>
+          <BrowserRouter>{renderRoutes(routes, relay)}</BrowserRouter>
+        </RelayRouterProvider>,
+        document.getElementById(mountId)
+      )
+    })
+  }
 }

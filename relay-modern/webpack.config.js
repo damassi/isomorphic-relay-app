@@ -17,6 +17,7 @@ export default {
   },
   output: {
     filename: '[name].js',
+    chunkFilename: '[name].bundle.js',
     path: path.resolve(__dirname, 'public/assets'),
     publicPath: '/assets',
   },

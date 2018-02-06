@@ -4,7 +4,7 @@ Example lib demonstrating how to mount an Isomorphic Relay-Router app on top of 
 
 ```bash
 yarn install
-yarn sync:schema
+yarn sync-schema
 yarn start
 
 open http://localhost:5000

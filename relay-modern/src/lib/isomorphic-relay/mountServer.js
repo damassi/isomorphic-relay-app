@@ -1,11 +1,14 @@
+import Loadable from 'react-loadable'
 import React from 'react'
 import RelayContextProvider from 'relay-context-provider'
 import chalk from 'chalk'
 import express from 'express'
 import serialize from 'serialize-javascript'
+import stats from '../../../public/assets/react-loadable.json'
 import { RelayRouterProvider } from './RelayRouterProvider'
 import { StaticRouter } from 'react-router'
 import { fetchQuery } from 'react-relay'
+import { getBundles } from 'react-loadable/webpack'
 import { getRelayEnvironment, getRelayRouteProps } from 'lib/isomorphic-relay'
 import { renderRoutes } from 'react-router-config'
 import { renderToString } from 'react-dom/server'
@@ -34,47 +37,56 @@ export function mountServer(routes, getComponent) {
         },
       }
 
-      const App = (
-        <html>
-          <head>
-            <title>Isomorphic Relay Modern App</title>
-          </head>
-          <body>
-            <div id="react-root">
-              <RelayRouterProvider provide={{ routerCache: {}, routes }}>
-                <RelayContextProvider
-                  environment={environment}
-                  variables={variables}
-                >
-                  <StaticRouter location={req.url} context={context}>
-                    {renderRoutes(routes, bootstrap.relay)}
-                  </StaticRouter>
-                </RelayContextProvider>
-              </RelayRouterProvider>
-            </div>
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
-                  window.__BOOTSTRAP__ = ${serialize(bootstrap)};
-                `,
+      let modules = []
+
+      const APP = renderToString(
+        <RelayRouterProvider provide={{ routerCache: {}, routes }}>
+          <RelayContextProvider environment={environment} variables={variables}>
+            <Loadable.Capture
+              report={(moduleName) => {
+                modules.push(moduleName)
               }}
-            />
-            <script src="/assets/artworks.js" />
-          </body>
-        </html>
+            >
+              <StaticRouter location={req.url} context={context}>
+                {renderRoutes(routes, bootstrap.relay)}
+              </StaticRouter>
+            </Loadable.Capture>
+          </RelayContextProvider>
+        </RelayRouterProvider>
       )
 
-      const html = renderToString(App)
-
       if (context.status === 404) {
-        res.status(404)
+        return res.status(404)
       }
 
       if (context.status === 302) {
         return res.redirect(302, context.url)
       }
 
-      res.status(200).send(html)
+      res.status(200).send(`
+        <html>
+          <head>
+            <title>Isomorphic Relay Modern App</title>
+          </head>
+          <body>
+            <div id="react-root">${APP}</div>
+
+            <script>
+              window.__BOOTSTRAP__ = ${serialize(bootstrap)};
+            </script>
+
+            <script src="/assets/artworks.js" />
+
+            ${getBundles(stats, modules)
+              .map((bundle) => {
+                return `<script src="/assets/${bundle.file}"></script>`
+              })
+              .join('\n')}
+
+            <script>window.main();</script>
+          </body>
+        </html>
+      `)
     } catch (error) {
       console.log(chalk.red('\n[isomorphic-relay] Error:', error))
       next(error)

@@ -1,4 +1,11 @@
+// NOTE: If `dynamic-import-node` is in .babelrc it breaks webpack's bundle
+// splitting. Only load during runtime on the node.js side.
+require('babel-register')({
+  plugins: ['dynamic-import-node'],
+})
+
 import 'dotenv/config'
+import Loadable from 'react-loadable'
 import config from './webpack.config'
 import express from 'express'
 import morgan from 'morgan'
@@ -37,10 +44,12 @@ if (isDevelopment) {
   app.use(require('src'))
 }
 
-app.listen(PORT, () => {
-  const bootMessage = isDevelopment
-    ? `\n[App] Booting...  \n`
-    : `\n[App] Started on http://localhost:5000  \n`
+Loadable.preloadAll().then(() => {
+  app.listen(PORT, () => {
+    const bootMessage = isDevelopment
+      ? `\n[App] Booting...  \n`
+      : `\n[App] Started on http://localhost:5000  \n`
 
-  console.log(bootMessage)
+    console.log(bootMessage)
+  })
 })
