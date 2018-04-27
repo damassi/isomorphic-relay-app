@@ -54,7 +54,7 @@ export default {
     // webpack.optimize.LimitChunkCountPlugin // Prevent chunk output
   ],
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.json'],
     modules: ['src', 'node_modules'],
   },
 }

@@ -1,6 +1,10 @@
 import 'isomorphic-fetch'
 import 'regenerator-runtime/runtime'
 import { Environment, RecordSource, Store } from 'relay-runtime'
+import RelayServerSSR from 'react-relay-network-modern-ssr/lib/server'
+// import schema from '../../../../graphql/metaphysics/data/schemaj'
+
+// const relayServerSSR = new RelayServerSSR()
 
 import {
   RelayNetworkLayer,
@@ -12,6 +16,10 @@ import {
 
 const network = new RelayNetworkLayer([
   urlMiddleware({ url: process.env.METAPHYSICS_BASE_URL }),
+  // relayServerSSR.getMiddleware({
+  //   schema,
+  //   contextValue: {},
+  // }),
   // loggerMiddleware(),
   // gqlErrorsMiddleware({
   //   disableServerMiddlewareTip: true,
