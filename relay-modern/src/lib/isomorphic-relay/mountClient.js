@@ -22,4 +22,6 @@ export function mountClient(routes) {
       )
     })
   }
+
+  window.main()
 }
