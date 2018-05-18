@@ -4,6 +4,7 @@ import ProgressBarPlugin from 'progress-bar-webpack-plugin'
 import WebpackNotifierPlugin from 'webpack-notifier'
 import path from 'path'
 import webpack from 'webpack'
+import { ReactLoadablePlugin } from 'react-loadable/webpack'
 
 const { NODE_ENV, PORT } = process.env
 
@@ -40,6 +41,13 @@ export default {
       },
     }),
     new ProgressBarPlugin(),
+    new ReactLoadablePlugin({
+      filename: './public/assets/react-loadable.json',
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'manifest',
+      minChunks: Infinity,
+    }),
     new WebpackNotifierPlugin(),
     new webpack.DefinePlugin({
       'process.env': {

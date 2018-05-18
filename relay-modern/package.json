@@ -6,9 +6,8 @@
   "license": "MIT",
   "scripts": {
     "build": "NODE_ENV=production yarn sync:schema && yarn relay && yarn webpack -p",
-    "build:reloadable": "yarn webpack --config webpack.loadable.js",
     "relay": "relay-compiler --src ./src --schema ../graphql/metaphysics/data/schema.graphql",
-    "start": "NODE_ENV=development yarn build:reloadable && concurrently --kill-others 'yarn relay --watch' 'babel-node index.js'",
+    "start": "concurrently --kill-others 'yarn relay --watch' 'babel-node index.js'",
     "now-start": "NODE_ENV=production babel-node index.js",
     "sync-schema": "cd ../graphql/metaphysics && git fetch && git checkout origin/master && yarn install && rm -rf data && mkdir data && cp .env.example .env && yarn dump-schema ./data",
     "webpack": "node -r babel-register ./node_modules/webpack/bin/webpack"
