@@ -7,7 +7,7 @@ export function Layout(props) {
     <div>
       <Nav />
       <div>
-        <h3>Isomorphic React / Relay Modern / React Router App</h3>
+        <h3>Universal Relay Example (using Found Router)</h3>
         <div>{props.children}</div>
       </div>
     </div>
