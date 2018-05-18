@@ -44,12 +44,12 @@ if (isDevelopment) {
   app.use(require('src'))
 }
 
-Loadable.preloadAll().then(() => {
-  app.listen(PORT, () => {
-    const bootMessage = isDevelopment
-      ? `\n[App] Booting...  \n`
-      : `\n[App] Started on http://localhost:5000  \n`
+// Loadable.preloadAll().then(() => {
+app.listen(PORT, () => {
+  const bootMessage = isDevelopment
+    ? `\n[App] Booting...  \n`
+    : `\n[App] Started on http://localhost:5000  \n`
 
-    console.log(bootMessage)
-  })
+  console.log(bootMessage)
+  // })
 })

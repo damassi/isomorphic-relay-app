@@ -1,6 +1,6 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { PreloadLink } from 'lib/isomorphic-relay/PreloadLink'
+import { Link } from 'found'
+// import { PreloadLink } from 'lib/isomorphic-relay/PreloadLink'
 
 export default function Nav() {
   return (
@@ -9,6 +9,9 @@ export default function Nav() {
         <Link to="/">Home</Link>
       </li>
       <li>
+        <Link to="/artwork">Artwork</Link>
+      </li>
+      {/* <li>
         <PreloadLink to="/artwork">
           Artwork{' '}
           <small>
@@ -26,7 +29,7 @@ export default function Nav() {
       </li>
       <li>
         <Link to="/react-loadable/server">React Loadable - SSR</Link>
-      </li>
+      </li> */}
     </ul>
   )
 }
