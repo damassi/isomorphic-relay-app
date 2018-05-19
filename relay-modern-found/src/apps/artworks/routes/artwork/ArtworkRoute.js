@@ -20,12 +20,13 @@ export class ArtworkRoute extends Component {
 
   render() {
     const { relay: { query, variables } } = ArtworkRoute
+    const { environment } = getRelayEnvironment(this.props.records)
 
     return (
       <QueryLookupRenderer
         lookup
         retain
-        environment={getRelayEnvironment(this.props.records)}
+        environment={environment}
         query={query}
         variables={variables}
         render={({ error, props }) => {

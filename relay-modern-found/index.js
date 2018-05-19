@@ -39,7 +39,11 @@ if (isDevelopment) {
   )
 
   const mountAndReload = createReloadable(app, require)
-  app.use(mountAndReload(path.resolve(__dirname, 'src')))
+  app.use(
+    mountAndReload(path.resolve(__dirname, 'src'), {
+      watchModules: ['react-relay-network-modern-ssr'],
+    })
+  )
 } else {
   app.use(require('src'))
 }

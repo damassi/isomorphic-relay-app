@@ -7,98 +7,101 @@ import { getRelayEnvironment } from './getRelayEnvironment'
 import { omit } from 'lodash/fp'
 import { injectContext } from './injectContext'
 
-export const PreloadLink = injectContext(context => {
-  return {
-    routerCache: context.routerCache,
-    routes: context.routes
-  }
-}, class extends Component {
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        replace: PropTypes.func.isRequired,
-        push: PropTypes.func.isRequired,
-      }),
-    }).isRequired,
-  }
-
-  static propTypes = {
-    routerCache: PropTypes.object.isRequired,
-    to: PropTypes.string.isRequired,
-    immediate: PropTypes.bool, // load page data in the background on mount
-  }
-
-  static defaultProps = {
-    immediate: false,
-  }
-
-  state = {
-    isLoading: false,
-  }
-
-  componentDidMount() {
-    if (this.props.immediate) {
-      this.fetchData()
+export const PreloadLink = injectContext(
+  context => {
+    return {
+      routerCache: context.routerCache,
+      routes: context.routes,
     }
-  }
+  },
+  class extends Component {
+    static contextTypes = {
+      router: PropTypes.shape({
+        history: PropTypes.shape({
+          replace: PropTypes.func.isRequired,
+          push: PropTypes.func.isRequired,
+        }),
+      }).isRequired,
+    }
 
-  fetchData() {
-    return new Promise(async (resolve, reject) => {
-      const { to, routerCache, routes } = this.props // TODO: Check cache against relay store
-      const cacheKey = to
+    static propTypes = {
+      routerCache: PropTypes.object.isRequired,
+      to: PropTypes.string.isRequired,
+      immediate: PropTypes.bool, // load page data in the background on mount
+    }
 
-      if (routerCache.get(cacheKey)) {
-        return resolve()
+    static defaultProps = {
+      immediate: false,
+    }
+
+    state = {
+      isLoading: false,
+    }
+
+    componentDidMount() {
+      if (this.props.immediate) {
+        this.fetchData()
       }
+    }
 
-      const { query, variables } = getRelayRouteProps(routes, cacheKey)
-      const environment = getRelayEnvironment()
+    fetchData() {
+      return new Promise(async (resolve, reject) => {
+        const { to, routerCache, routes } = this.props // TODO: Check cache against relay store
+        const cacheKey = to
 
-      try {
-        if (query) {
-          const response = await fetchQuery(environment, query, variables)
-          routerCache.set(cacheKey, response)
+        if (routerCache.get(cacheKey)) {
+          return resolve()
         }
 
-        resolve()
-      } catch (error) {
-        console.error('[isomorphic-relay] PreloadLink.js Error:', error)
-      }
-    })
-  }
+        const { query, variables } = getRelayRouteProps(routes, cacheKey)
+        const { environment, relaySSRMiddleware } = getRelayEnvironment()
 
-  handleClick = (event) => {
-    event.preventDefault()
+        try {
+          // if (query) {
+          //   const response = await fetchQuery(environment, query, variables)
+          //   routerCache.set(cacheKey, response)
+          // }
 
-    this.setState({
-      isLoading: true,
-    })
+          resolve()
+        } catch (error) {
+          console.error('[isomorphic-relay] PreloadLink.js Error:', error)
+        }
+      })
+    }
 
-    this.fetchData().then(() => {
-      const { replace, to } = this.props
-      const { router: { history } } = this.context
+    handleClick = event => {
+      event.preventDefault()
 
       this.setState({
-        isLoading: false,
+        isLoading: true,
       })
 
-      if (replace) {
-        history.replace(to)
-      } else {
-        history.push(to)
-      }
-    })
-  }
+      this.fetchData().then(() => {
+        const { replace, to } = this.props
+        const { router: { history } } = this.context
 
-  render() {
-    // RR will pass all props down to dom, leading to props warnings from React
-    const props = omit(['immediate', 'routerCache'], this.props)
+        this.setState({
+          isLoading: false,
+        })
 
-    return (
-      <Link onClick={this.handleClick} {...props}>
-        {this.props.children}
-        {this.state.isLoading ? ' [loading...]' : null}
-      </Link>
-    )
+        if (replace) {
+          history.replace(to)
+        } else {
+          history.push(to)
+        }
+      })
+    }
+
+    render() {
+      // RR will pass all props down to dom, leading to props warnings from React
+      const props = omit(['immediate', 'routerCache'], this.props)
+
+      return (
+        <Link onClick={this.handleClick} {...props}>
+          {this.props.children}
+          {this.state.isLoading ? ' [loading...]' : null}
+        </Link>
+      )
+    }
   }
-})
+)
