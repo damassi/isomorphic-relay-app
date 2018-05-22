@@ -1,23 +1,51 @@
-import Loadable from 'react-loadable'
+import BrowserProtocol from 'farce/lib/BrowserProtocol'
+import createRender from 'found/lib/createRender'
+import createInitialFarceRouter from 'found/lib/createInitialFarceRouter'
+import queryMiddleware from 'farce/lib/queryMiddleware'
+import { Resolver } from 'found-relay'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter } from 'react-router-dom'
-import { Cache } from './cache'
-import { RelayRouterProvider } from './RelayRouterProvider'
-import { renderRoutes } from 'react-router-config'
 
-export function mountClient(routes) {
-  const { relay } = window.__BOOTSTRAP__
-  const routerCache = new Cache()
+import { createRelayEnvironment } from './relayEnvironment'
 
-  routerCache.set(window.location.pathname, relay.response)
+export async function mountClient(routeConfig) {
+  const environment = createRelayEnvironment(window.__RELAY_BOOTSTRAP__) // eslint-disable-line
+  const historyMiddlewares = [queryMiddleware]
+  const resolver = new Resolver(environment)
+  const render = createRender({})
 
-  Loadable.preloadReady().then(() => {
+  try {
+    const Router = await createInitialFarceRouter({
+      historyProtocol: new BrowserProtocol(),
+      historyMiddlewares,
+      routeConfig,
+      resolver,
+      render,
+    })
+
     ReactDOM.hydrate(
-      <RelayRouterProvider provide={{ routerCache, routes }}>
-        <BrowserRouter>{renderRoutes(routes, relay)}</BrowserRouter>
-      </RelayRouterProvider>,
+      <Router resolver={resolver} />,
       document.getElementById('react-root')
     )
-  })
+  } catch (error) {
+    console.log('[isomorphic-relay] Error:', error)
+  }
 }
+
+// import Loadable from 'react-loadable'
+// import React from 'react'
+// import ReactDOM from 'react-dom'
+
+// export function mountClient(routes) {
+// const relay = window.__RELAY_BOOTSTRAP__
+// console.log(relay)
+
+// Loadable.preloadReady().then(() => {
+//   ReactDOM.hydrate(
+//     <RelayRouterProvider provide={{ routerCache, routes }}>
+//       <BrowserRouter>{renderRoutes(routes, relay)}</BrowserRouter>
+//     </RelayRouterProvider>,
+//     document.getElementById('react-root')
+//   )
+// })
+// }

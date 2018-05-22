@@ -10,6 +10,8 @@ const { NODE_ENV, PORT } = process.env
 
 export default {
   devtool: 'cheap-module-eval-source-map',
+  mode: NODE_ENV,
+
   entry: {
     artworks: [
       'webpack-hot-middleware/client',
@@ -24,15 +26,36 @@ export default {
   },
   module: {
     rules: [
+      // See: https://github.com/aws/aws-amplify/issues/686#issuecomment-387710340
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto',
+      },
+      {
+        include: /src/,
         loader: 'babel-loader',
         options: {
           cacheDirectory: true,
         },
       },
     ],
+  },
+  // See https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366 and
+  // https://gist.github.com/sokra/1522d586b8e5c0f5072d7565c2bee693
+  optimization: {
+    namedModules: true,
+    noEmitOnErrors: true,
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /node_modules/,
+          chunks: 'initial',
+          name: 'manifest',
+          enforce: true,
+        },
+      },
+    },
   },
   plugins: [
     new FriendlyErrorsWebpackPlugin({
@@ -43,10 +66,6 @@ export default {
     new ProgressBarPlugin(),
     new ReactLoadablePlugin({
       filename: './public/assets/react-loadable.json',
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'manifest',
-      minChunks: Infinity,
     }),
     new WebpackNotifierPlugin(),
     new webpack.DefinePlugin({
@@ -62,7 +81,7 @@ export default {
     // webpack.optimize.LimitChunkCountPlugin // Prevent chunk output
   ],
   resolve: {
-    extensions: ['.js', '.jsx', '.json'],
+    extensions: ['.mjs', '.js', '.jsx', '.json'],
     modules: ['src', 'node_modules'],
   },
 }

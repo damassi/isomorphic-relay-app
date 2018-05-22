@@ -1,4 +1,3 @@
-export { getRelayEnvironment } from './getRelayEnvironment'
-export { getRelayRouteProps } from './getRelayRouteProps'
+export { createRelayEnvironment } from './relayEnvironment'
 export { mountClient } from './mountClient'
 export { mountServer } from './mountServer'
