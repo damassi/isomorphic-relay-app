@@ -52,7 +52,6 @@ export function mountServer(routeConfig) {
 
       setTimeout(() => {
         const html = ReactDOMServer.renderToString(element)
-        console.log(html)
 
         res.status(status).send(`
           <html>

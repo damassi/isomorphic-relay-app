@@ -6,6 +6,7 @@ import { Environment, RecordSource, Store } from 'relay-runtime'
 import {
   RelayNetworkLayer,
   urlMiddleware,
+  cacheMiddleware,
   // loggerMiddleware,
 } from 'react-relay-network-modern'
 
@@ -20,10 +21,14 @@ export function createRelayEnvironment(cache) {
 
   const network = new RelayNetworkLayer([
     relaySSRMiddleware.getMiddleware(),
-    // loggerMiddleware(),
+    cacheMiddleware({
+      size: 100, // max 100 requests
+      ttl: 900000, // 15 minutes
+    }),
     urlMiddleware({
       url: process.env.METAPHYSICS_BASE_URL,
     }),
+    // loggerMiddleware(),
   ])
 
   const source = new RecordSource()

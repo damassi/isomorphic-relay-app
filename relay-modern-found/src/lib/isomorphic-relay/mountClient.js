@@ -10,12 +10,12 @@ import ReactDOM from 'react-dom'
 import { createRelayEnvironment } from './relayEnvironment'
 
 export async function mountClient(routeConfig) {
-  const environment = createRelayEnvironment(window.__RELAY_BOOTSTRAP__) // eslint-disable-line
+  const environment = createRelayEnvironment(
+    JSON.parse(window.__RELAY_BOOTSTRAP__)
+  ) // eslint-disable-line
   const historyMiddlewares = [queryMiddleware]
   const resolver = new Resolver(environment)
   const render = createRender({})
-
-  environment.relaySSRMiddleware.debug = true
 
   try {
     const Router = await createInitialFarceRouter({
