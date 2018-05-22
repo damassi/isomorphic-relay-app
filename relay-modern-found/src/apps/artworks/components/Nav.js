@@ -14,6 +14,12 @@ export default function Nav() {
       <li>
         <Link to="/artist/pablo-picasso">Pablo Picasso</Link>
       </li>
+      <li>
+        <Link to="/react-loadable/client">React Loadable - Clientside</Link>
+      </li>
+      <li>
+        <Link to="/react-loadable/server">React Loadable - SSR</Link>
+      </li>
       {/* <li>
         <PreloadLink to="/artwork">
           Artwork{' '}

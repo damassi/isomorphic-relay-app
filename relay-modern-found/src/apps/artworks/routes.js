@@ -4,8 +4,8 @@ import { HomeRoute } from './routes/home/HomeRoute'
 import { ArtistRoute } from './routes/artist/ArtistRoute'
 import { graphql } from 'react-relay'
 // import { ArtistsRoute } from './routes/artists/ArtistsRoute'
-// import { ReactLoadableClientRoute } from './routes/react-loadable/ReactLoadableClientRoute'
-// import { ReactLoadableServerRoute } from './routes/react-loadable/ReactLoadableServerRoute'
+import { ReactLoadableClientRoute } from './routes/react-loadable/ReactLoadableClientRoute'
+import { ReactLoadableServerRoute } from './routes/react-loadable/ReactLoadableServerRoute'
 
 export const routes = [
   {
@@ -31,26 +31,18 @@ export const routes = [
           }
         `,
       },
-      // {
-      //   path: '/artwork',
-      //   component: ArtworkRoute,
-      // },
-      // {
-      //   path: '/artist/:id',
-      //   component: ArtistsRoute,
-      // },
-      // {
-      //   path: '/react-loadable/client',
-      //   component: ReactLoadableClientRoute,
-      // },
-      // {
-      //   path: '/react-loadable/server',
-      //   component: ReactLoadableServerRoute,
-      // },
-      // {
-      //   path: '*',
-      //   component: () => <div>NOT FOUND!</div>,
-      // },
+      {
+        path: '/react-loadable/client',
+        Component: ReactLoadableClientRoute,
+      },
+      {
+        path: '/react-loadable/server',
+        Component: ReactLoadableServerRoute,
+      },
+      {
+        path: '*',
+        component: () => <div>NOT FOUND!</div>,
+      },
     ],
   },
 ]
