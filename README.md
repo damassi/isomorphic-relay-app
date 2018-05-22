@@ -1,5 +1,11 @@
 Example app showing how to isomorphically render a Relay Modern or Classic app. Connects to Artsy's [GraphQL server](https://github.com/artsy/metaphysics).
 
+For more detailed instructions see these examples:
+
+* [Relay Modern with React Router 4](relay-modern)
+* [Relay Modern with Found Router](relay-modern-found)
+* [Relay Classic](relay-classic)
+
 ### Setup
 
 ```bash
@@ -19,5 +25,3 @@ yarn start
 
 open http://localhost:5000
 ```
-
-For more detailed instructions, see the [Relay Modern](relay-modern), [Relay Modern with Found Router](relay-modern-found) or [Relay Classic](relay-classic) folders.

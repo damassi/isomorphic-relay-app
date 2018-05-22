@@ -20,10 +20,15 @@ export function createRelayEnvironment(cache) {
   relaySSRMiddleware.debug = false
 
   const network = new RelayNetworkLayer([
-    relaySSRMiddleware.getMiddleware(),
+    relaySSRMiddleware.getMiddleware({
+      lookup: true,
+    }),
     cacheMiddleware({
       size: 100, // max 100 requests
       ttl: 900000, // 15 minutes
+      onInit: cache => {
+        console.log(cache)
+      },
     }),
     urlMiddleware({
       url: process.env.METAPHYSICS_BASE_URL,
