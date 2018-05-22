@@ -8,6 +8,8 @@ cd isomorphic-relay-app
 
 cd relay-modern
 # or
+cd relay-modern-found
+# or
 cd relay-classic
 # then
 
@@ -18,4 +20,4 @@ yarn start
 open http://localhost:5000
 ```
 
-For more detailed instructions, see the [Relay Modern](relay-modern) or [Relay Classic](relay-classic) folders.
+For more detailed instructions, see the [Relay Modern](relay-modern), [Relay Modern with Found Router](relay-modern-found) or [Relay Classic](relay-classic) folders.

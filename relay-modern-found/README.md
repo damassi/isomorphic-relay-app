@@ -1,4 +1,4 @@
-Example lib demonstrating how to mount an Isomorphic Relay Modern app on top of Express, including hot reloading on the client. Connects to Artsy's [GraphQL server](https://github.com/artsy/metaphysics).
+Example lib demonstrating how to mount an Isomorphic Relay Modern app on top of Express and [`found-relay`](https://github.com/4Catalyzer/found-relay) router, including hot reloading on the client. Connects to Artsy's [GraphQL server](https://github.com/artsy/metaphysics).
 
 ### Setup
 
