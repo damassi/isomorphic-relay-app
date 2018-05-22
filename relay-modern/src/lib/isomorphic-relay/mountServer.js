@@ -41,7 +41,7 @@ export function mountServer(routes, getComponent) {
 
       const APP = renderToString(
         <Loadable.Capture
-          report={(moduleName) => {
+          report={moduleName => {
             modules.push(moduleName)
           }}
         >
@@ -78,15 +78,14 @@ export function mountServer(routes, getComponent) {
               window.__BOOTSTRAP__ = ${serialize(bootstrap)};
             </script>
 
-            <script src="/assets/artworks.js" />
+            <script src="/assets/manifest.js"></script>
+            <script src="/assets/artworks.js"></script>
 
             ${getBundles(stats, modules)
-              .map((bundle) => {
+              .map(bundle => {
                 return `<script src="/assets/${bundle.file}"></script>`
               })
               .join('\n')}
-
-            <script>window.main();</script>
           </body>
         </html>
       `)

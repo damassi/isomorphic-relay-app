@@ -12,16 +12,12 @@ export function mountClient(routes) {
 
   routerCache.set(window.location.pathname, relay.response)
 
-  window.main = () => {
-    Loadable.preloadReady().then(() => {
-      ReactDOM.hydrate(
-        <RelayRouterProvider provide={{ routerCache, routes }}>
-          <BrowserRouter>{renderRoutes(routes, relay)}</BrowserRouter>
-        </RelayRouterProvider>,
-        document.getElementById('react-root')
-      )
-    })
-  }
-
-  window.main()
+  Loadable.preloadReady().then(() => {
+    ReactDOM.hydrate(
+      <RelayRouterProvider provide={{ routerCache, routes }}>
+        <BrowserRouter>{renderRoutes(routes, relay)}</BrowserRouter>
+      </RelayRouterProvider>,
+      document.getElementById('react-root')
+    )
+  })
 }
