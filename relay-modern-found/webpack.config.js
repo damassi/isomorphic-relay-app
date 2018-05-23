@@ -11,7 +11,6 @@ const { NODE_ENV, PORT } = process.env
 export default {
   devtool: 'cheap-module-eval-source-map',
   mode: NODE_ENV,
-
   entry: {
     artworks: [
       'webpack-hot-middleware/client?reload=true',

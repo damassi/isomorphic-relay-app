@@ -6,8 +6,9 @@ import express from 'express'
 import queryMiddleware from 'farce/lib/queryMiddleware'
 import serialize from 'serialize-javascript'
 import stats from '../../../public/assets/react-loadable.json'
-import { getBundles } from 'react-loadable/webpack'
+import { RelayRouterProvider } from './RelayRouterProvider'
 import { Resolver } from 'found-relay'
+import { getBundles } from 'react-loadable/webpack'
 import { getFarceResult } from 'found/lib/server'
 
 import { createRelayEnvironment } from './relayEnvironment'
@@ -38,20 +39,32 @@ export function mountServer(routeConfig) {
       // Async modules
       const modules = []
 
+      const getApp = () => (
+        <RelayRouterProvider
+          provide={{
+            environment,
+            resolver,
+            routeConfig,
+          }}
+        >
+          {element}
+        </RelayRouterProvider>
+      )
+
       ReactDOMServer.renderToString(
         <Loadable.Capture
           report={moduleName => {
             modules.push(moduleName)
           }}
         >
-          {element}
+          {getApp()}
         </Loadable.Capture>
       )
 
       const relayData = await environment.relaySSRMiddleware.getCache()
 
       setTimeout(() => {
-        const html = ReactDOMServer.renderToString(element)
+        const html = ReactDOMServer.renderToString(getApp())
 
         res.status(status).send(`
           <html>

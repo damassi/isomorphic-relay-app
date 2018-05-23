@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'found'
-// import { PreloadLink } from 'lib/isomorphic-relay/PreloadLink'
+import { PreloadLink } from 'lib/isomorphic-relay/PreloadLink'
 
 export default function Nav() {
   return (
@@ -12,7 +12,14 @@ export default function Nav() {
         <Link to="/about">About</Link>
       </li>
       <li>
-        <Link to="/artist/pablo-picasso">Pablo Picasso</Link>
+        <PreloadLink immediate to="/artist/pablo-picasso">
+          Pablo Picasso
+        </PreloadLink>
+      </li>
+      <li>
+        <PreloadLink to="/auction/shared-live-mocktion-k8s">
+          Artsy Auction
+        </PreloadLink>
       </li>
       <li>
         <Link to="/react-loadable/client">React Loadable - Clientside</Link>

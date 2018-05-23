@@ -27,7 +27,8 @@ export function createRelayEnvironment(cache) {
       size: 100, // max 100 requests
       ttl: 900000, // 15 minutes
       onInit: cache => {
-        console.log(cache)
+        // TODO: Handle this cache
+        // console.log(cache)
       },
     }),
     urlMiddleware({

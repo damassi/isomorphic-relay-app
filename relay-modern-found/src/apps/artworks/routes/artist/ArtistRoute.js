@@ -1,5 +1,5 @@
 import React from 'react'
-import { Artworks } from './Artworks'
+import { ArtistArtworks } from './ArtistArtworks'
 import { createFragmentContainer, graphql } from 'react-relay'
 
 export const ArtistRoute = createFragmentContainer(
@@ -9,7 +9,7 @@ export const ArtistRoute = createFragmentContainer(
         <h1>{artist.name}</h1>
         <p>{artist.bio}</p>
 
-        <Artworks artworks={artist.artworks} />
+        <ArtistArtworks artworks={artist.artworks} />
       </div>
     )
   },
@@ -19,7 +19,7 @@ export const ArtistRoute = createFragmentContainer(
       name
       bio
       artworks {
-        ...Artworks_artworks
+        ...ArtistArtworks_artworks
       }
     }
   `

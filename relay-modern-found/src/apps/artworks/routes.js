@@ -1,9 +1,9 @@
 import React from 'react'
+import { graphql } from 'react-relay'
 import { Layout } from './components/Layout'
 import { HomeRoute } from './routes/home/HomeRoute'
 import { ArtistRoute } from './routes/artist/ArtistRoute'
-import { graphql } from 'react-relay'
-// import { ArtistsRoute } from './routes/artists/ArtistsRoute'
+import { AuctionRoute } from './routes/auction/AuctionRoute'
 import { ReactLoadableClientRoute } from './routes/react-loadable/ReactLoadableClientRoute'
 import { ReactLoadableServerRoute } from './routes/react-loadable/ReactLoadableServerRoute'
 
@@ -32,6 +32,20 @@ export const routes = [
         `,
       },
       {
+        path: '/auction/:id',
+        Component: AuctionRoute,
+        prepareVariables: params => ({
+          id: 'shared-live-mocktion-k8s',
+        }),
+        query: graphql`
+          query routes_AuctionRouteQuery($id: String!) {
+            sale(id: $id) {
+              ...AuctionRoute_sale
+            }
+          }
+        `,
+      },
+      {
         path: '/react-loadable/client',
         Component: ReactLoadableClientRoute,
       },
@@ -41,7 +55,7 @@ export const routes = [
       },
       {
         path: '*',
-        component: () => <div>NOT FOUND!</div>,
+        Component: () => <div>NOT FOUND!</div>,
       },
     ],
   },

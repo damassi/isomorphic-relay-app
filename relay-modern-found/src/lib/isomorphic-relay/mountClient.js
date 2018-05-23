@@ -4,6 +4,7 @@ import createRender from 'found/lib/createRender'
 import createInitialFarceRouter from 'found/lib/createInitialFarceRouter'
 import queryMiddleware from 'farce/lib/queryMiddleware'
 import { Resolver } from 'found-relay'
+import { RelayRouterProvider } from './RelayRouterProvider'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -28,7 +29,15 @@ export async function mountClient(routeConfig) {
 
     Loadable.preloadReady().then(() => {
       ReactDOM.hydrate(
-        <Router resolver={resolver} />,
+        <RelayRouterProvider
+          provide={{
+            environment,
+            routeConfig,
+            resolver,
+          }}
+        >
+          <Router resolver={resolver} />
+        </RelayRouterProvider>,
         document.getElementById('react-root')
       )
     })

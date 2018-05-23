@@ -32,9 +32,7 @@ if (isDevelopment) {
       quiet: true,
       publicPath: config.output.publicPath,
       serverSideRender: true,
-      stats: {
-        colors: true,
-      },
+      stats: 'minimal',
     })
   )
 
