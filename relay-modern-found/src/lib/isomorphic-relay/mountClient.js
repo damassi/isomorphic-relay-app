@@ -1,19 +1,20 @@
 import BrowserProtocol from 'farce/lib/BrowserProtocol'
-import Loadable from 'react-loadable'
-import createRender from 'found/lib/createRender'
-import createInitialFarceRouter from 'found/lib/createInitialFarceRouter'
-import queryMiddleware from 'farce/lib/queryMiddleware'
-import { Resolver } from 'found-relay'
-import { RelayRouterProvider } from './RelayRouterProvider'
+// import Loadable from 'react-loadable'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import createInitialFarceRouter from 'found/lib/createInitialFarceRouter'
+import createRender from 'found/lib/createRender'
+import queryMiddleware from 'farce/lib/queryMiddleware'
+import { RelayRouterProvider } from './RelayRouterProvider'
+import { Resolver } from 'found-relay'
+import { loadComponents } from 'loadable-components'
 
 import { createRelayEnvironment } from './relayEnvironment'
 
 export async function mountClient(routeConfig) {
   const environment = createRelayEnvironment(
     JSON.parse(window.__RELAY_BOOTSTRAP__)
-  ) // eslint-disable-line
+  )
   const historyMiddlewares = [queryMiddleware]
   const resolver = new Resolver(environment)
   const render = createRender({})
@@ -27,7 +28,7 @@ export async function mountClient(routeConfig) {
       render,
     })
 
-    Loadable.preloadReady().then(() => {
+    loadComponents().then(() => {
       ReactDOM.hydrate(
         <RelayRouterProvider
           provide={{

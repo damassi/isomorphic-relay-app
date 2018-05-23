@@ -1,22 +1,19 @@
 import React from 'react'
-import Loadable from 'react-loadable'
+import loadable from 'loadable-components'
 
-const Example1 = Loadable({
-  loader: () => {
+const Example1 = loadable(
+  () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve(import('./Example1'))
-      }, 1000)
+        resolve(import(/* webpackChunkName: "Example1" */ './Example1'))
+      }, 300)
     })
   },
-  loading: (props) => {
-    if (props.error) {
-      return <div>Error!</div>
-    } else {
-      return <div>Loading...</div>
-    }
-  },
-})
+  {
+    LoadingComponent: () => <div>Loading...</div>,
+    ErrorComponent: () => <div>Error...</div>,
+  }
+)
 
 export function ReactLoadableClientRoute() {
   return (

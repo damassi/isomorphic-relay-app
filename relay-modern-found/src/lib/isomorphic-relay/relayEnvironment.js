@@ -1,7 +1,7 @@
 import 'isomorphic-fetch'
 import 'regenerator-runtime/runtime'
-import RelayServerSSR from 'react-relay-network-modern-ssr/lib/server'
-import RelayClientSSR from 'react-relay-network-modern-ssr/lib/client'
+// import RelayServerSSR from 'react-relay-network-modern-ssr/lib/server'
+// import RelayClientSSR from 'react-relay-network-modern-ssr/lib/client'
 import { Environment, RecordSource, Store } from 'relay-runtime'
 import {
   RelayNetworkLayer,
@@ -12,10 +12,17 @@ import {
 
 export function createRelayEnvironment(cache) {
   const isServer = typeof window === 'undefined'
+  let relaySSRMiddleware = null
 
-  const relaySSRMiddleware = isServer
-    ? new RelayServerSSR()
-    : new RelayClientSSR(cache) // eslint-disable-line
+  if (isServer) {
+    const RelayServerSSR = require('react-relay-network-modern-ssr/lib/server')
+      .default
+    relaySSRMiddleware = new RelayServerSSR()
+  } else {
+    const RelayClientSSR = require('react-relay-network-modern-ssr/lib/client')
+      .default
+    relaySSRMiddleware = new RelayClientSSR(cache)
+  }
 
   relaySSRMiddleware.debug = false
 

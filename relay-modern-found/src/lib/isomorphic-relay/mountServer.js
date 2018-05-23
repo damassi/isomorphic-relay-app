@@ -1,15 +1,13 @@
-import Loadable from 'react-loadable'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import createRender from 'found/lib/createRender'
 import express from 'express'
 import queryMiddleware from 'farce/lib/queryMiddleware'
 import serialize from 'serialize-javascript'
-import stats from '../../../public/assets/react-loadable.json'
 import { RelayRouterProvider } from './RelayRouterProvider'
 import { Resolver } from 'found-relay'
-import { getBundles } from 'react-loadable/webpack'
 import { getFarceResult } from 'found/lib/server'
+import { getLoadableState } from 'loadable-components/server'
 
 import { createRelayEnvironment } from './relayEnvironment'
 
@@ -36,10 +34,7 @@ export function mountServer(routeConfig) {
         return
       }
 
-      // Async modules
-      const modules = []
-
-      const getApp = () => (
+      const APP = (
         <RelayRouterProvider
           provide={{
             environment,
@@ -51,20 +46,12 @@ export function mountServer(routeConfig) {
         </RelayRouterProvider>
       )
 
-      ReactDOMServer.renderToString(
-        <Loadable.Capture
-          report={moduleName => {
-            modules.push(moduleName)
-          }}
-        >
-          {getApp()}
-        </Loadable.Capture>
-      )
-
+      // Kick off relay requests
+      ReactDOMServer.renderToString(APP)
       const relayData = await environment.relaySSRMiddleware.getCache()
 
-      setTimeout(() => {
-        const html = ReactDOMServer.renderToString(getApp())
+      getLoadableState(APP).then(loadableState => {
+        const html = ReactDOMServer.renderToString(APP)
 
         res.status(status).send(`
           <html>
@@ -83,19 +70,14 @@ export function mountServer(routeConfig) {
                 )};
               </script>
 
-              <script src="/assets/manifest.bundle.js"></script>
-              <script src="/assets/artworks.js"></script>
+              ${loadableState.getScriptTag()}
 
-              ${getBundles(stats, modules)
-                .filter(bundle => bundle.file.endsWith('.js'))
-                .map(bundle => {
-                  return `<script src="/assets/${bundle.file}"></script>`
-                })
-                .join('\n')}
+              <script src="/assets/manifest.bundle.js"></script>
+              <script src="/assets/artworks.bundle.js"></script>
           </body>
         </html>
         `)
-      }, 0)
+      })
     } catch (error) {
       console.log(error) // eslint-disable-line
     }

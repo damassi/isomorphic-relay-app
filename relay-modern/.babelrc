@@ -1,6 +1,6 @@
 {
   "presets": [
-    "env",
+    ["env", { "targets": { "node": 6 } }],
     "react",
     "stage-3"
   ],
@@ -11,6 +11,7 @@
         "src": "./src"
       }
     }],
+    "babel-plugin-lodash",
     "dynamic-import-node",
     "relay",
     "transform-class-properties",

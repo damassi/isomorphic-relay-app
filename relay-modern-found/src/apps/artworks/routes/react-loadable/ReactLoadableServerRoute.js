@@ -1,17 +1,9 @@
 import React from 'react'
-import Loadable from 'react-loadable'
+import loadable from 'loadable-components'
 
-const Example2 = Loadable({
-  loader: () => import('./Example2'),
-  loading: (props) => {
-    if (props.error) {
-      return <div>Error!</div>
-    } else if (props.pastDelay) {
-      return <div>Loading...</div>
-    } else {
-      return null
-    }
-  },
+const Example2 = loadable(() => import('./Example2'), {
+  LoadingComponent: () => <div>Loading...</div>,
+  ErrorComponent: () => <div>Error...</div>,
 })
 
 export function ReactLoadableServerRoute() {

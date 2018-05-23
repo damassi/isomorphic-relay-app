@@ -1,8 +1,8 @@
 {
   "presets": [
-    "env",
-    "react",
-    "stage-3"
+    "@babel/env",
+    "@babel/stage-3",
+    "@babel/react"
   ],
   "plugins": [
     ["module-resolver", {
@@ -11,10 +11,8 @@
         "src": "./src"
       }
     }],
-    "dynamic-import-node",
-    "relay",
-    "transform-class-properties",
-    "transform-export-extensions",
-    "transform-runtime"
+    "@babel/plugin-syntax-dynamic-import",
+    "loadable-components/babel",
+    "relay"
   ]
 }

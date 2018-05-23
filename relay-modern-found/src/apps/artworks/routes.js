@@ -33,7 +33,10 @@ export const routes = [
         children: [
           {
             path: '/auction/:id',
-            Component: AuctionRoute,
+            getComponent: () =>
+              import('./routes/auction/AuctionRoute').then(module => {
+                return module.AuctionRoute
+              }),
             prepareVariables: params => ({
               id: 'shared-live-mocktion-k8s',
             }),
@@ -54,7 +57,7 @@ export const routes = [
           id: 'shared-live-mocktion-k8s',
         }),
         query: graphql`
-          query routes_AuctionRouteQuery($id: String!) {
+          query routes_TopAuctionRouteQuery($id: String!) {
             sale(id: $id) {
               ...AuctionRoute_sale
             }
