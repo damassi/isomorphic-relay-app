@@ -1,20 +1,23 @@
 import BrowserProtocol from 'farce/lib/BrowserProtocol'
-// import Loadable from 'react-loadable'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import createInitialFarceRouter from 'found/lib/createInitialFarceRouter'
 import createRender from 'found/lib/createRender'
 import queryMiddleware from 'farce/lib/queryMiddleware'
-import { RelayRouterProvider } from './RelayRouterProvider'
+import { AppProvider } from './AppProvider'
 import { Resolver } from 'found-relay'
 import { loadComponents } from 'loadable-components'
 
 import { createRelayEnvironment } from './relayEnvironment'
 
 export async function mountClient(routeConfig) {
-  const environment = createRelayEnvironment(
-    JSON.parse(window.__RELAY_BOOTSTRAP__)
-  )
+  let bootstrap = null
+
+  try {
+    bootstrap = JSON.parse(window.__RELAY_BOOTSTRAP__ || '{}')
+  } catch (error) {}
+
+  const environment = createRelayEnvironment(bootstrap)
   const historyMiddlewares = [queryMiddleware]
   const resolver = new Resolver(environment)
   const render = createRender({})
@@ -28,9 +31,9 @@ export async function mountClient(routeConfig) {
       render,
     })
 
-    loadComponents().then(() => {
+    const mountApp = () => {
       ReactDOM.hydrate(
-        <RelayRouterProvider
+        <AppProvider
           provide={{
             environment,
             routeConfig,
@@ -38,10 +41,16 @@ export async function mountClient(routeConfig) {
           }}
         >
           <Router resolver={resolver} />
-        </RelayRouterProvider>,
+        </AppProvider>,
         document.getElementById('react-root')
       )
-    })
+    }
+
+    if (process.env.SSR_ENABLED) {
+      loadComponents().then(mountApp)
+    } else {
+      mountApp()
+    }
   } catch (error) {
     console.log('[isomorphic-relay] Error:', error)
   }

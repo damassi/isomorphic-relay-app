@@ -3,7 +3,6 @@ import { createFragmentContainer, graphql } from 'react-relay'
 
 export const AuctionArtworks = createFragmentContainer(
   props => {
-    console.log('hi')
     return (
       <div>
         {props.artworks.map((artwork, index) => {

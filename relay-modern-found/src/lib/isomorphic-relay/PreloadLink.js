@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Link, ResolverUtils, withRouter } from 'found'
 import { fetchQuery } from 'react-relay'
 import { isEmpty, isUndefined, omit } from 'lodash/fp'
-import { injectContext } from './injectContext'
+import { injectContext } from './AppProvider'
 
 const { getRouteMatches, getRouteValues } = ResolverUtils
 

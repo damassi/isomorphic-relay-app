@@ -4,7 +4,7 @@ import createRender from 'found/lib/createRender'
 import express from 'express'
 import queryMiddleware from 'farce/lib/queryMiddleware'
 import serialize from 'serialize-javascript'
-import { RelayRouterProvider } from './RelayRouterProvider'
+import { AppProvider } from './AppProvider'
 import { Resolver } from 'found-relay'
 import { getFarceResult } from 'found/lib/server'
 import { getLoadableState } from 'loadable-components/server'
@@ -16,72 +16,78 @@ export function mountServer(routeConfig) {
 
   app.get('/*', async (req, res) => {
     try {
-      const environment = createRelayEnvironment()
-      const historyMiddlewares = [queryMiddleware]
-      const resolver = new Resolver(environment)
-      const render = createRender({})
+      if (process.env.SSR_ENABLED) {
+        const environment = createRelayEnvironment()
+        const historyMiddlewares = [queryMiddleware]
+        const resolver = new Resolver(environment)
+        const render = createRender({})
 
-      const { redirect, status, element } = await getFarceResult({
-        url: req.url,
-        historyMiddlewares,
-        routeConfig,
-        resolver,
-        render,
-      })
+        const { redirect, status, element } = await getFarceResult({
+          url: req.url,
+          historyMiddlewares,
+          routeConfig,
+          resolver,
+          render,
+        })
 
-      if (redirect) {
-        res.redirect(302, redirect.url)
-        return
+        if (redirect) {
+          res.redirect(302, redirect.url)
+          return
+        }
+
+        const APP = (
+          <AppProvider
+            provide={{
+              environment,
+              resolver,
+              routeConfig,
+            }}
+          >
+            {element}
+          </AppProvider>
+        )
+
+        // Kick off relay requests
+        ReactDOMServer.renderToString(APP)
+        const relayData = await environment.relaySSRMiddleware.getCache()
+
+        getLoadableState(APP).then(loadableState => {
+          const html = ReactDOMServer.renderToString(APP)
+          res.status(status).send(getMarkup({ html, relayData, loadableState }))
+        })
+      } else {
+        res.status(200).send(getMarkup())
       }
-
-      const APP = (
-        <RelayRouterProvider
-          provide={{
-            environment,
-            resolver,
-            routeConfig,
-          }}
-        >
-          {element}
-        </RelayRouterProvider>
-      )
-
-      // Kick off relay requests
-      ReactDOMServer.renderToString(APP)
-      const relayData = await environment.relaySSRMiddleware.getCache()
-
-      getLoadableState(APP).then(loadableState => {
-        const html = ReactDOMServer.renderToString(APP)
-
-        res.status(status).send(`
-          <html>
-            <head>
-              <title>Isomorphic Found Relay App</title>
-            </head>
-            <body>
-              <div id="react-root">${html}</div>
-
-              <script>
-                window.__RELAY_BOOTSTRAP__ = ${serialize(
-                  JSON.stringify(relayData),
-                  {
-                    isJSON: true,
-                  }
-                )};
-              </script>
-
-              ${loadableState.getScriptTag()}
-
-              <script src="/assets/manifest.bundle.js"></script>
-              <script src="/assets/artworks.bundle.js"></script>
-          </body>
-        </html>
-        `)
-      })
     } catch (error) {
       console.log(error) // eslint-disable-line
     }
   })
 
   return app
+}
+
+function getMarkup(props = {}) {
+  const { html = '', relayData = {}, loadableState = null } = props
+
+  return `
+    <html>
+    <head>
+      <title>Isomorphic Found Relay App</title>
+    </head>
+    <body>
+      <div id="react-root">${html}</div>
+
+      <script>
+        window.__RELAY_BOOTSTRAP__ = ${serialize(JSON.stringify(relayData), {
+          isJSON: true,
+        })};
+      </script>
+
+      ${loadableState ? loadableState.getScriptTag() : ''}
+
+      <script src="/assets/manifest.bundle.js"></script>
+      <script src="/assets/artworks.bundle.js"></script>
+  </body>
+  </html>
+  `
 }

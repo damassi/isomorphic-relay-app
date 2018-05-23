@@ -6,10 +6,15 @@ import WebpackNotifierPlugin from 'webpack-notifier'
 import path from 'path'
 import webpack from 'webpack'
 
-const { NODE_ENV, PORT } = process.env
+const {
+  NODE_ENV,
+  PORT,
+  SSR_ENABLED,
+  WEBPACK_DEVTOOL = 'cheap-module-eval-source-map',
+} = process.env
 
 export default {
-  devtool: 'cheap-module-eval-source-map', // source-map
+  devtool: WEBPACK_DEVTOOL, // source-map
   mode: NODE_ENV,
   entry: {
     artworks: [
@@ -32,6 +37,7 @@ export default {
         type: 'javascript/auto',
       },
       {
+        test: /(\.(js|ts)x?$)/,
         include: /src/,
         loader: 'babel-loader',
         options: {
@@ -65,6 +71,7 @@ export default {
           'https://metaphysics-staging.artsy.net'
         ),
         NODE_ENV: JSON.stringify(NODE_ENV),
+        SSR_ENABLED: JSON.stringify(SSR_ENABLED),
       },
     }),
     new webpack.HotModuleReplacementPlugin(),
@@ -72,7 +79,7 @@ export default {
     // webpack.optimize.LimitChunkCountPlugin // Prevent chunk output
   ],
   resolve: {
-    extensions: ['.mjs', '.js', '.jsx', '.json'],
+    extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
     modules: ['src', 'node_modules'],
   },
 }

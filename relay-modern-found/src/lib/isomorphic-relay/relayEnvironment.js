@@ -15,12 +15,16 @@ export function createRelayEnvironment(cache) {
   let relaySSRMiddleware = null
 
   if (isServer) {
-    const RelayServerSSR = require('react-relay-network-modern-ssr/lib/server')
-      .default
+    const {
+      default: RelayServerSSR,
+    } = require('react-relay-network-modern-ssr/lib/server')
+
     relaySSRMiddleware = new RelayServerSSR()
   } else {
-    const RelayClientSSR = require('react-relay-network-modern-ssr/lib/client')
-      .default
+    const {
+      default: RelayClientSSR,
+    } = require('react-relay-network-modern-ssr/lib/client')
+
     relaySSRMiddleware = new RelayClientSSR(cache)
   }
 

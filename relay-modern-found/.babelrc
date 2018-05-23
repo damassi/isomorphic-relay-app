@@ -2,17 +2,24 @@
   "presets": [
     "@babel/env",
     "@babel/stage-3",
-    "@babel/react"
+    "@babel/react",
+    "@babel/typescript"
   ],
   "plugins": [
+    "@babel/plugin-syntax-dynamic-import",
+    "loadable-components/babel",
+    ["relay", { "artifactDirectory": "./src/__generated__" }],
+    // Why do we still need this?
+    ["transform-rename-import", {
+      "original": "..\/src\/__generated__",
+      "replacement": "$1.\/__generated__"
+    }],
     ["module-resolver", {
+      "extensions": [".js", ".jsx", ".ts", ".tsx"],
       "root": ["./src"],
       "alias": {
         "src": "./src"
       }
-    }],
-    "@babel/plugin-syntax-dynamic-import",
-    "loadable-components/babel",
-    "relay"
+    }]
   ]
 }

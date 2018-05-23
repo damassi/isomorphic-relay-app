@@ -6,6 +6,7 @@ import { ArtistRoute } from './routes/artist/ArtistRoute'
 import { AuctionRoute } from './routes/auction/AuctionRoute'
 import { ReactLoadableClientRoute } from './routes/react-loadable/ReactLoadableClientRoute'
 import { ReactLoadableServerRoute } from './routes/react-loadable/ReactLoadableServerRoute'
+import { ArtworkGrid } from '@artsy/reaction/dist/Components/ArtworkGrid'
 
 export const routes = [
   {
@@ -20,12 +21,32 @@ export const routes = [
         Component: () => <div>About page!</div>,
       },
       {
-        path: '/artist/:id',
-        Component: ArtistRoute,
+        path: '/artsy/:id',
         prepareVariables: params => ({ id: 'pablo-picasso' }),
+        Component: ArtworkGrid,
+        // getComponent: ({ artworks }) => {
+        //   return import('@artsy/reaction/dist/Components/ArtworkGrid').then(
+        //     module => module.ArtworkGrid
+        //   )
+        // },
+        query: graphql`
+          query routes_ArtsyQuery($artistID: String!) {
+            artist(id: $artistID) {
+              artworks: artworks_connection(first: 10) {
+                ...ArtworkGrid_artworks
+              }
+            }
+          }
+        `,
+      },
+      {
+        path: '/artist/:id',
+        prepareVariables: params => ({ id: 'pablo-picasso' }),
+        Component: ArtistRoute,
         query: graphql`
           query routes_ArtistRouteQuery($id: String!) {
             artist(id: $id) {
+              id
               ...ArtistRoute_artist
             }
           }

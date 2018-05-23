@@ -2,6 +2,7 @@
 // splitting. Only load during runtime on the node.js side.
 require('@babel/register')({
   plugins: ['babel-plugin-dynamic-import-node'],
+  extensions: ['.js', '.jsx', '.ts,', '.tsx'],
 })
 
 import 'dotenv/config'
@@ -29,14 +30,14 @@ if (isDevelopment) {
     require('webpack-dev-middleware')(compiler, {
       publicPath: config.output.publicPath,
       serverSideRender: true,
-      // stats: 'minimal',
+      stats: 'minimal',
     })
   )
 
   const mountAndReload = createReloadable(app, require)
   app.use(
     mountAndReload(path.resolve(__dirname, 'src'), {
-      watchModules: ['react-relay-network-modern-ssr'],
+      watchModules: ['@artsy/reaction'],
     })
   )
 } else {
