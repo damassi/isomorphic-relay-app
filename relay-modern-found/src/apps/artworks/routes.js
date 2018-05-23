@@ -30,6 +30,22 @@ export const routes = [
             }
           }
         `,
+        children: [
+          {
+            path: '/auction/:id',
+            Component: AuctionRoute,
+            prepareVariables: params => ({
+              id: 'shared-live-mocktion-k8s',
+            }),
+            query: graphql`
+              query routes_AuctionRouteQuery($id: String!) {
+                sale(id: $id) {
+                  ...AuctionRoute_sale
+                }
+              }
+            `,
+          },
+        ],
       },
       {
         path: '/auction/:id',

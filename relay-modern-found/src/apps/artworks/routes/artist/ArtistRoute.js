@@ -3,11 +3,13 @@ import { ArtistArtworks } from './ArtistArtworks'
 import { createFragmentContainer, graphql } from 'react-relay'
 
 export const ArtistRoute = createFragmentContainer(
-  ({ artist }) => {
+  ({ artist, children }) => {
     return (
       <div>
         <h1>{artist.name}</h1>
         <p>{artist.bio}</p>
+
+        {children}
 
         <ArtistArtworks artworks={artist.artworks} />
       </div>

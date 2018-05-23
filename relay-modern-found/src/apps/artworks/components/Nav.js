@@ -12,32 +12,16 @@ export default function Nav() {
         <Link to="/about">About</Link>
       </li>
       <li>
-        <PreloadLink immediate to="/artist/pablo-picasso">
-          Pablo Picasso
+        <PreloadLink to="/artist/pablo-picasso">Pablo Picasso</PreloadLink>
+      </li>
+      <li>
+        <PreloadLink to="/artist/pablo-picasso/auction/shared-live-mocktion-k8s">
+          Artist + Artsy Auction (nested queries)
         </PreloadLink>
       </li>
       <li>
-        <PreloadLink to="/auction/shared-live-mocktion-k8s">
-          Artsy Auction
-        </PreloadLink>
-      </li>
-      <li>
-        <Link to="/react-loadable/client">React Loadable - Clientside</Link>
-      </li>
-      <li>
-        <Link to="/react-loadable/server">React Loadable - SSR</Link>
-      </li>
-      {/* <li>
-        <PreloadLink to="/artwork">
-          Artwork{' '}
-          <small>
-            (query / transition loads after click if not already loaded)
-          </small>
-        </PreloadLink>
-      </li>
-      <li>
-        <PreloadLink immediate to="/artist/jean-michel-basquiat">
-          Artist <small>(loads immediately in background)</small>
+        <PreloadLink immediate to="/auction/shared-live-mocktion-k8s">
+          Auction (loads immediately in the background)
         </PreloadLink>
       </li>
       <li>
@@ -45,7 +29,7 @@ export default function Nav() {
       </li>
       <li>
         <Link to="/react-loadable/server">React Loadable - SSR</Link>
-      </li> */}
+      </li>
     </ul>
   )
 }
