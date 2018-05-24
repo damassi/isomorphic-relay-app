@@ -3,22 +3,21 @@ const path = require('path')
 
 // prettier-ignore
 const args = [
-    '--extensions', 'js', 'jsx',
-    '--schema', path.resolve(__dirname, '../../graphql/metaphysics/data/schema.graphql'),
-    '--language', 'typescript',
+  '--extensions', 'js', 'jsx', 'ts', 'tsx',
+  '--schema', path.resolve(__dirname, '../../graphql/metaphysics/data/schema.graphql'),
+  '--language', 'typescript',
 
-    '--src', path.resolve(__dirname, '..'),
-    '--artifactDirectory', './src/__generated__',
+  '--src', path.resolve(__dirname, '..'),
+  '--artifactDirectory', './src/__generated__',
 
-    '--include',
-      'src/**',
-      'node_modules/@artsy/reaction/src/**',
+  '--include',
+    'src/**',
+    'node_modules/@artsy/reaction/src/**',
 
-    '--exclude',
-      '**/__mocks__/**',
-      '**/__tests__/**',
-      '**/__generated__/**',
-      'node_modules/@artsy/reaction/node_modules/**'
+  '--exclude',
+    'node_modules/@artsy/reaction/node_modules/**',
+
+  '--no-watchman'
 ];
 
 if (process.argv.includes('--watch')) {
